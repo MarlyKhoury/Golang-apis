@@ -61,4 +61,12 @@ func logIn(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Sorry, only GET and POST methods are supported.")
 	}
 
+	// Execute the query
+	var tag Tag
+	email := r.FormValue("email")
+	password := r.FormValue("password")
+	db, err := sql.Open("mysql", "root@tcp(127.0.0.1)/facebookdb")
+	print(err)
+	err = db.QueryRow("SELECT id FROM user_account WHERE email = ? AND password = ?", email, password).Scan(&tag.ID)
+
 	
