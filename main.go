@@ -11,6 +11,9 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+type Tag struct {
+	ID int `json:"id"`
+}
 
 func main() {
 
@@ -25,3 +28,19 @@ func main() {
 	// executing
 	defer db.Close()
 
+	http.HandleFunc("/", logIn)
+	http.HandleFunc("/signup", signUp)
+
+	fmt.Printf("Starting server for testing HTTP POST...\n")
+	if err := http.ListenAndServe(":8080", nil); err != nil {
+		log.Fatal(err)
+	}
+}
+
+func logIn(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/" {
+		http.Error(w, "404 not found.", http.StatusNotFound)
+		return
+	}
+
+	
