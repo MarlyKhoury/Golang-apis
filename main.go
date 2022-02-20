@@ -12,3 +12,16 @@ import (
 )
 
 
+func main() {
+
+	db, err := sql.Open("mysql", "root@tcp(127.0.0.1)/facebookdb")
+
+	// if there is an error opening the connection, handle it
+	if err != nil {
+		panic(err.Error())
+	}
+
+	// defer the close till after the main function has finished
+	// executing
+	defer db.Close()
+
