@@ -159,4 +159,19 @@ func signUp(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Server error, unable to create your account.", 500)
 			return
 		}
-		
+		_, err = db.Exec("INSERT INTO user_account (fname, lname, email, password) VALUES(?,?,?,?)", firstname, lastname, email, hashedPassword)
+
+		if err != nil {
+			http.Error(w, "Server error, unable to create your account.", 500)
+			return
+		}
+
+		w.Write([]byte("User created!"))
+		return
+	case err != nil:
+		http.Error(w, "Server error, unable to create your account.", 500)
+		return
+	default:
+		http.Redirect(w, r, "/", http.StatusMovedPermanently)
+	}
+}
