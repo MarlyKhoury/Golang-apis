@@ -52,4 +52,13 @@ func logIn(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		
+		fmt.Fprintf(w, "Post from website! r.PostFrom = %v\n", r.PostForm)
+		email := r.FormValue("email")
+		password := r.FormValue("password")
+		fmt.Fprintf(w, "Email = %s\n", email)
+		fmt.Fprintf(w, "Password = %s\n", password)
+	default:
+		fmt.Fprintf(w, "Sorry, only GET and POST methods are supported.")
+	}
+
+	
