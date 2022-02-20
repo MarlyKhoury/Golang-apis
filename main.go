@@ -106,3 +106,14 @@ func GetJWT(id int) (string, error) {
 	return tokenString, nil
 }
 
+//-------------------------------------------------------------------------------------------------------
+
+func signUp(w http.ResponseWriter, r *http.Request) {
+
+
+	db, err := sql.Open("mysql", "root@tcp(127.0.0.1)/facebookdb")
+	print(err)
+	if r.URL.Path != "/" {
+		http.Error(w, "404 not found.", http.StatusNotFound)
+		return
+	}
