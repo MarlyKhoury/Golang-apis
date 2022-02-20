@@ -43,4 +43,13 @@ func logIn(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	
+	switch r.Method {
+
+	case "POST":
+		// Call ParseForm() to parse the raw query and update r.PostForm and r.Form.
+		if err := r.ParseForm(); err != nil {
+			fmt.Fprintf(w, "ParseForm() err: %v", err)
+			return
+		}
+
+		
