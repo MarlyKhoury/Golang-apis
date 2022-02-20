@@ -140,4 +140,16 @@ func signUp(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Sorry, only GET and POST methods are supported.")
 	}
 
+	// Execute the query
+
+	firstname := r.FormValue("firstname")
+	lastname := r.FormValue("lastname")
+	email := r.FormValue("email")
+	password := r.FormValue("password")
+
+	var user string
+
+	err = db.QueryRow("SELECT firstname FROM user_account WHERE firstname=?", firstname).Scan(&user)
+	print(err)
+
 	
