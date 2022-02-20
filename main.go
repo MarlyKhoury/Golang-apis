@@ -72,4 +72,37 @@ func logIn(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
-	
+	validToken, err := GetJWT(tag.ID)
+	fmt.Println(validToken)
+	if err != nil {
+		fmt.Println("Failed to generate token")
+	}
+
+	fmt.Fprintf(w, "validToken")
+	fmt.Fprint(w, validToken)
+	if err != nil {
+		panic(err.Error()) //error handling
+	}
+}
+
+// JWT TOKEN GENERATION
+
+func GetJWT(id int) (string, error) {
+	var mySigningKey = []byte("unicorns")
+	token := jwt.New(jwt.SigningMethodHS256)
+
+	claims := token.Claims.(jwt.MapClaims)
+
+	claims["authorized"] = true
+	claims["id"] = id
+
+	tokenString, err := token.SignedString(mySigningKey)
+
+	if err != nil {
+		fmt.Errorf("Something Went Wrong: %s", err.Error())
+		return "", err
+	}
+
+	return tokenString, nil
+}
+
