@@ -69,4 +69,7 @@ func logIn(w http.ResponseWriter, r *http.Request) {
 	print(err)
 	err = db.QueryRow("SELECT id FROM user_account WHERE email = ? AND password = ?", email, password).Scan(&tag.ID)
 
+	if err != nil {
+		panic(err.Error())
+	}
 	
