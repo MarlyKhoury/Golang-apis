@@ -117,3 +117,27 @@ func signUp(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "404 not found.", http.StatusNotFound)
 		return
 	}
+
+	switch r.Method {
+
+	case "POST":
+		// Call ParseForm() to parse the raw query and update r.PostForm and r.Form.
+		if err := r.ParseForm(); err != nil {
+			fmt.Fprintf(w, "ParseForm() err: %v", err)
+			return
+		}
+
+		fmt.Fprintf(w, "Post from website! r.PostFrom = %v\n", r.PostForm)
+		firstname := r.FormValue("firstname")
+		lastname := r.FormValue("lastname")
+		email := r.FormValue("email")
+		password := r.FormValue("password")
+		fmt.Fprintf(w, "Firstname = %s\n", firstname)
+		fmt.Fprintf(w, "Lastname = %s\n", lastname)
+		fmt.Fprintf(w, "Email = %s\n", email)
+		fmt.Fprintf(w, "Password = %s\n", password)
+	default:
+		fmt.Fprintf(w, "Sorry, only GET and POST methods are supported.")
+	}
+
+	
