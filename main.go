@@ -152,4 +152,11 @@ func signUp(w http.ResponseWriter, r *http.Request) {
 	err = db.QueryRow("SELECT firstname FROM user_account WHERE firstname=?", firstname).Scan(&user)
 	print(err)
 
-	
+	switch {
+	case err == sql.ErrNoRows:
+		hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+		if err != nil {
+			http.Error(w, "Server error, unable to create your account.", 500)
+			return
+		}
+		
